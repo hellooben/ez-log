@@ -39,14 +39,25 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
+    # register the prompt blueprint, setting it as the default
+    from . import prompt
+    app.register_blueprint(prompt.bp)
+    app.add_url_rule('/', endpoint='verify')
+
     # register the login blueprint
     from . import auth
     app.register_blueprint(auth.bp)
+    app.add_url_rule('/login', endpoint='login')
 
-    # register the blog blueprint, setting it as the default index
+    # register the blog blueprint
     from . import blog
     app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='index')
+    app.add_url_rule('/home', endpoint='home')
+
+    # register the 'my logs' blueprint
+    from . import mine
+    app.register_blueprint(mine.bp)
+    app.add_url_rule('/my_logs', endpoint='mine')
 
     # Bootstrap(app)
 
