@@ -6,22 +6,15 @@
 
 {% block content %}
   <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
-    <input type="submit" value="Save">
-  </form>
-  <!-- 
-  <form method="post">
     <div class="form-group">
       <label for="title">Title</label>
-      <input name="title" id="title" class="form-control" value="{{ request.form['title'] }}" required>
+      <input name="title" id="title" class="form-control"
+        value="{{ request.form['title'] }}" required>
     </div>
     <div class="form-group">
       <label for="body">Body</label>
-      <input name="password" id="body" class="form-control" required>
+      <textarea name="body" id="body" class="form-control">{{ request.form['body'] }}</textarea>
     </div>
-      <button type="submit" value="Log In" class="btn btn-outline-primary">Log In</button>
-  </form> -->
+    <button type="submit" value="Save" class="btn btn-outline-success">Save</button>
+  </form>
 {% endblock %}
