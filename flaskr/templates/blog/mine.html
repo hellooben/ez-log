@@ -1,29 +1,36 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}My Logs{% endblock %}</h1>
+  <h1 class="mx-auto" style="width: 200px;">{% block title %}My Logs{% endblock %}</h1>
   {% if g.user %}
     <!-- <a class="action" href="{{ url_for('blog.create') }}">New</a> -->
-    <a class="action btn btn-outline-success" href="{{ url_for('blog.create') }}">New Log</a>
+    <div class="container">
+      <a class="action btn btn-outline-success" href="{{ url_for('blog.create') }}">New Log</a>
+    </div>
   {% endif %}
 {% endblock %}
 
 {% block content %}
   {% for post in posts %}
+  <div class="container">
     <article class="post">
       <header>
-        <div>
-          <h3 class="text-left">{{ post['title'] }}</h3>
-          <div class="blockquote-footer">by {{ post['username'] }} on {{ post['created'].strftime('%m-%d-%Y') }}</div>
-        </div>
+
+        <h3 class="text-left">{{ post['title'] }}</h3>
+        <div class="blockquote-footer">by {{ post['username'] }} on {{ post['created'].strftime('%m-%d-%Y') }}</div>
+
       </header>
       <p class="lead">{{ post['body'] }}</p>
     </article>
+    </div>
     {% if g.user['id'] == post['author_id'] %}
-     <a class="action btn btn-outline-primary" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+    <div class="container">
+        <a class="action btn btn-outline-primary btn-sm" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+
     {% endif %}
     {% if not loop.last %}
       <hr>
     {% endif %}
+    </div>
   {% endfor %}
 {% endblock %}

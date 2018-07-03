@@ -1,25 +1,29 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}All Logs{% endblock %}</h1>
+  <h1 class="mx-auto" style="width: 200px;">{% block title %}All Logs{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   {% for post in posts %}
     <article class="post">
       <header>
-        <div>
+        <div class="container">
           <h3 class="text-left">{{ post['title'] }}</h3>
           <div class="blockquote-footer">by {{ post['username'] }} on {{ post['created'].strftime('%m-%d-%Y') }}</div>
         </div>
       </header>
-      <p class="lead">{{ post['body'] }}</p>
+      <div class="container">
+        <p class="lead">{{ post['body'] }}</p>
+      </div>
     </article>
-    {% if g.user['id'] == post['author_id'] %}
-     <a class="action btn btn-outline-primary" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
-    {% endif %}
-    {% if not loop.last %}
-      <hr>
-    {% endif %}
+    <div class="container">
+      {% if g.user['id'] == post['author_id'] %}
+        <a class="action btn btn-outline-primary btn-sm" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+      {% endif %}
+      {% if not loop.last %}
+        <hr>
+      {% endif %}
+    </div>
   {% endfor %}
 {% endblock %}
