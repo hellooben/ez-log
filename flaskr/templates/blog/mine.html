@@ -2,35 +2,28 @@
 
 {% block header %}
   <h1 class="mx-auto" style="width: 200px;">{% block title %}My Logs{% endblock %}</h1>
-  {% if g.user %}
-    <!-- <a class="action" href="{{ url_for('blog.create') }}">New</a> -->
-    <div class="container">
-      <a class="action btn btn-outline-success" href="{{ url_for('blog.create') }}">New Log</a>
-    </div>
-  {% endif %}
 {% endblock %}
 
 {% block content %}
-  {% for post in posts %}
-  <div class="container">
-    <article class="post">
-      <header>
-
-        <h3 class="text-left">{{ post['title'] }} : {{ post['rating'] }}</h3>
-        <div class="blockquote-footer">by {{ post['username'] }} on {{ post['created'].strftime('%m-%d-%Y') }}</div>
-
-      </header>
-      <p class="lead">{{ post['body'] }}</p>
-    </article>
-    </div>
-    {% if g.user['id'] == post['author_id'] %}
-    <div class="container">
-        <a class="action btn btn-outline-primary btn-sm" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
-
-    {% endif %}
-    {% if not loop.last %}
-      <hr>
-    {% endif %}
-    </div>
-  {% endfor %}
+  {% if posts %}
+      {% for post in posts %}
+          <div class="container">
+            <article class="post">
+              <header>
+                <h3 class="text-left">{{ post['title'] }} : {{ post['rating'] }}
+                  <a class="action btn btn-outline-primary btn-sm float-right" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+                </h3>
+                <div class="blockquote-footer">by {{ post['username'] }} on {{ post['created'].strftime('%m-%d-%Y') }}</div>
+              </header>
+              <p class="lead">{{ post['body'] }}</p>
+              {% if not loop.last %}
+                <hr>
+              {% endif %}
+            </article>
+          </div>
+      {% endfor %}
+  {% else %}
+  <br><br>
+    <h3 class="mx-auto" style="width: 200px;">You have no logs <i class="rainbow far fa-sad-cry"></i><br>Get logging!</h3>
+  {% endif %}
 {% endblock %}
