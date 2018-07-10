@@ -1,4 +1,1 @@
-worker: export FLASK_APP=flaskr
-worker: export FLASK_ENV=development
-
-web: flask run
+web: python3 run.py
