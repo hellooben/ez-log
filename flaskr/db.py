@@ -16,6 +16,7 @@ def get_db():
         # g.db.row_factory = sqlite3.Row
         DATABASE_URL = os.environ['DATABASE_URL']
         g.db = psycopg2.connect(DATABASE_URL, sslmode='require')
+    print("DBDBDBDB: ", g.db)
     return g.db
 
 def close_db(e=None):
@@ -30,12 +31,6 @@ def init_db():
 
     cursor = db.cursor()
     print(cursor)
-    # cursor.execute("""CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL);""")
-    # cursor.execute("CREATE TABLE user (id SERIAL PRIMARY KEY,username TEXT UNIQUE NOT NULL,password TEXT NOT NULL);")
-    # db.commit()
-    # cursor.close()
-    # db.close()
-    # file = open('../schema.sql', 'r')
     with current_app.open_resource('schema.sql') as f:
         cursor.execute(f.read().decode('utf8'))
     db.commit()

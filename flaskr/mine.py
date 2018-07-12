@@ -11,7 +11,16 @@ bp = Blueprint('mine', __name__)
 @bp.route('/my_logs')
 def mine():
     db = get_db()
+    cursor = db.cursor()
     user_id = session.get('user_id')
+    cursor.execute(
+        'SELECT post.id, title, body, rating, created, author_id, username'
+        ' FROM post INNER JOIN user ON user.id=post.author_id'
+        # ' WHERE author_id = ?', (user_id,)
+        ' WHERE author_id = {uID}'
+        ' ORDER BY created DESC'.\
+        format(uID=user_id)
+    )
     # g.user = get_db().execute(
     #     'SELECT * FROM user WHERE id = ?', (user_id,)
     # ).fetchone()

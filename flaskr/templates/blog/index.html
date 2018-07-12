@@ -9,12 +9,12 @@
     <article class="post">
       <header>
         <div class="container">
-          <h3 class="text-left">{{ post['title'] }} : {{ post['rating'] }}
-              {% if g.user['id'] == post['author_id'] %}
+          <h3 class="text-left">{{ log[3] }} : {{ log[5] }}
+              {% if g.person[0] == log[1] %}
                 <a class="action btn btn-outline-primary btn-sm float-right" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
               {% endif %}
           </h3>
-          <div class="blockquote-footer">by {{ post['username'] }} on {{ post['created'].strftime('%m-%d-%Y') }}</div>
+          <div class="blockquote-footer">by {{ post['username'] }} on {{ log[2].strftime('%m-%d-%Y') }}</div>
           <p class="lead">{{ post['body'] }}</p>
           {% if not loop.last %}
             <hr>
