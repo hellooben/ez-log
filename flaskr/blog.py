@@ -25,8 +25,8 @@ def home():
     #     ' ORDER BY created DESC'
     # ).fetchall()
     cursor.execute(
-        "SELECT l.id title, body, rating, created, author_id, username"
-        " FROM log l JOIN person p ON l.author_id = p.id"
+        "SELECT l.id, title, body, rating, created, author_id, username"
+        " FROM log l JOIN person p ON l.author_id=p.id"
         " ORDER BY created DESC"
     )
     posts = cursor.fetchall()
@@ -68,7 +68,7 @@ def get_post(id, check_author=True):
     cursor.execute(
         'SELECT l.id, title, body, rating, created, author_id, username'
         ' FROM log l JOIN person p ON l.author_id = p.id'
-        ' WHERE p.id = %s', (id,)
+        ' WHERE l.id = %s', (id,)
         )
     post = cursor.fetchone()
     # post = get_db().execute(
@@ -80,7 +80,9 @@ def get_post(id, check_author=True):
     if post is None:
         abort(404, "Post id {0} doesn't exist".format(id))
 
-    if check_author and log[1] != g.user[0]:
+    print('POSTha: {}, USER: {}'.format(post[3], g.user[0]))
+    if check_author and post[5] != g.user[0]:
+        print('NOPE!')
         abort(403)
 
     return post
@@ -92,8 +94,11 @@ def update(id):
 
     if request.method == 'POST':
         title = request.form['title']
+        print('TITLE: ', title)
         body = request.form['body']
+        print('BODY: ', body)
         rating = request.form['rating']
+        print('RATING: ', rating)
         error = None
 
         if not title:

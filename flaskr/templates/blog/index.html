@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1 class="mx-auto" style="width: 200px;">{% block title %}All Logs{% endblock %}</h1>
+  <h1 class="mx-auto text-center" style="width: 200px;">{% block title %}All Logs{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -9,12 +9,12 @@
     <article class="post">
       <header>
         <div class="container">
-          <h3 class="text-left">{{ log[3] }} : {{ log[5] }}
-              {% if g.person[0] == log[1] %}
-                <a class="action btn btn-outline-primary btn-sm float-right" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+          <h3 class="text-left">{{ post[1] }} : {{ post[3] }}
+              {% if g.user[0] == post[5] %}
+                <a class="action btn btn-outline-primary btn-sm float-right" href="{{ url_for('blog.update', id=post[0]) }}">Edit</a>
               {% endif %}
           </h3>
-          <div class="blockquote-footer">by {{ post['username'] }} on {{ log[2].strftime('%m-%d-%Y') }}</div>
+          <div class="blockquote-footer">by {{ post[6] }} on {{ post[4].strftime('%m-%d-%Y') }}</div>
           <p class="lead">{{ post['body'] }}</p>
           {% if not loop.last %}
             <hr>

@@ -15,8 +15,9 @@ def get_db():
         # )
         # g.db.row_factory = sqlite3.Row
         DATABASE_URL = os.environ['DATABASE_URL']
+        # DATABASE_URL = os.environ.get('DATABASE_URL')
         g.db = psycopg2.connect(DATABASE_URL, sslmode='require')
-    print("DBDBDBDB: ", g.db)
+    # print("DBDBDBDB: ", g.db)
     return g.db
 
 def close_db(e=None):

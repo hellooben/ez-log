@@ -15,7 +15,7 @@ def load_logged_in_user():
     # session.clear()
     ##
     user_id = session.get('user_id')
-    print(user_id)
+    print('CURRENT USER ID: ', user_id)
 
     if user_id is None:
         g.user = None

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1 class="mx-auto" style="width: 200px;">{% block title %}My Logs{% endblock %}</h1>
+  <h1 class="mx-auto text-center" style="width: 200px;">{% block title %}My Logs{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -10,12 +10,12 @@
           <div class="container">
             <article class="post">
               <header>
-                <h3 class="text-left">{{ post['title'] }} : {{ post['rating'] }}
-                  <a class="action btn btn-outline-primary btn-sm float-right" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+                <h3 class="text-left">{{ post[1] }} : {{ post[3] }}
+                  <a class="action btn btn-outline-primary btn-sm float-right" href="{{ url_for('mine.update', id=post[0]) }}">Edit</a>
                 </h3>
-                <div class="blockquote-footer">by {{ post['username'] }} on {{ post['created'].strftime('%m-%d-%Y') }}</div>
+                <div class="blockquote-footer">by You! on {{ post[4].strftime('%m-%d-%Y') }}</div>
               </header>
-              <p class="lead">{{ post['body'] }}</p>
+              <p class="lead">{{ post[2] }}</p>
               {% if not loop.last %}
                 <hr>
               {% endif %}
@@ -24,6 +24,6 @@
       {% endfor %}
   {% else %}
   <br><br>
-    <h3 class="mx-auto" style="width: 200px;">You have no logs <i class="rainbow far fa-sad-cry"></i><br>Get logging!</h3>
+    <h3 class="mx-auto text-center" style="width: 400px;">You have no logs!<br><i class="rainbow far fa-sad-cry"></i><br>Get logging!</h3>
   {% endif %}
 {% endblock %}

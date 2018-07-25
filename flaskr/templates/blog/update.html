@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1 class="mx-auto" style="width: 200px;">{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
+  <h1 class="mx-auto" style="width: 200px;">{% block title %}Edit "{{ post[1] }}"{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -10,18 +10,18 @@
         <div class="form-group">
           <label for="title">Title</label>
           <input name="title" id="title" class="form-control" style="width: 200px;"
-            value="{{ request.form['title'] or post['title'] }}" required>
+            value="{{ request.form[1] or post[1] }}" required>
         </div>
         <div class="form-group">
             <label for="rating">Rate your day on a 1-10 scale</label>
             <input type="range" name="rating" id="rating" class="custom-range" min="1" max="10"
-              value="{{ request.form['rating'] or post['rating']}}">
+              value="{{ request.form[3] or post[3]}}">
           <label for="body">Body</label>
-          <textarea name="body" id="body" class="form-control" style="width: 500px;">{{ request.form['body'] or post['body'] }}</textarea>
+          <textarea name="body" id="body" class="form-control" style="width: 500px;">{{ request.form[2] or post[2] }}</textarea>
         </div>
         <button type="submit" value="Save" class="btn btn-outline-success">Save</button>
       </form>
-      <form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
+      <form action="{{ url_for('blog.delete', id=post[0]) }}" method="post">
         <button type="submit" value="Delete" class="btn btn-outline-danger mt-5" onclick="return confirm('Are you sure?');">Delete</button>
       </form>
   </div>
