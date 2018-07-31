@@ -9,9 +9,10 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY = 'dev',
         # DATABASE = os.path.join(app.instance_path, 'flaskr.sqlite'),
-        DATABASE = os.environ['DATABASE_URL']
+        # DATABASE = os.environ['DATABASE_URL']
+        DATABASE = os.environ.get('DATABASE_URL', None)
     )
-
+    # print(DATABASE)
     if test_config is None:
         # when not testing, load the instance config
         app.config.from_pyfile('config.py', silent=True)
