@@ -1,19 +1,18 @@
 [[source]]
-
-url = "https://morning-shore-58893.herokuapp.com"
+url = "https://pypi.python.org/simple"
 verify_ssl = true
-name = "ez-log"
+name = "pypi"
 
 [packages]
+requests = "*"
+psycopg2 = "*"
+flask = "*"
+werkzeug = "*"
 
-psycopg2-binary = "*"
 
 [dev-packages]
+pytest = "*"
 
-psycopg2-binary = "*"
-
-[requires]
+[requirements]
 
 python_version = "3.6"
-psycopg2 = "*"
-psycopg2-binary = "*"
