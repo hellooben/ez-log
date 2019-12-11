@@ -8,6 +8,7 @@ from flaskr.db import get_db
 
 bp = Blueprint('mine', __name__)
 
+
 @bp.route('/my_logs')
 def mine():
     db = get_db()
@@ -15,7 +16,7 @@ def mine():
     user_id = session.get('user_id')
     cursor.execute(
         'SELECT l.id, title, body, rating, created, author_id, username'
-        ' FROM log l INNER JOIN person ON person.id=l.author_id'
+        ' FROM log l INNER JOIN user ON user.id=l.author_id'
         # ' WHERE author_id = ?', (user_id,)
         ' WHERE author_id = {uID}'
         ' ORDER BY created DESC'.\
@@ -42,6 +43,7 @@ def mine():
     # ).fetchall()
     posts = cursor.fetchall()
     return render_template('blog/mine.html', posts=posts)
+
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -70,11 +72,12 @@ def create():
 
     return render_template('blog/create.html')
 
+
 def get_post(id, check_author=True):
     cursor = get_db().cursor()
     cursor.execute(
         'SELECT l.id, title, body, rating, created, author_id, username'
-        ' FROM log l JOIN person p ON l.author_id = p.id'
+        ' FROM log l JOIN user p ON l.author_id = p.id'
         ' WHERE l.id = %s', (id,)
     )
     post = cursor.fetchone()
@@ -88,6 +91,7 @@ def get_post(id, check_author=True):
         abort(403)
 
     return post
+
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
@@ -121,6 +125,7 @@ def update(id):
             return redirect(url_for('mine.mine'))
 
     return render_template('blog/update.html', post=post)
+
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required

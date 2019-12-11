@@ -1,18 +1,19 @@
 import os
-import psycopg2
+# import psycopg2
 
 from flask import Flask
+import mysql.connector
+
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY = 'dev',
-        # DATABASE = os.path.join(app.instance_path, 'flaskr.sqlite'),
-        # DATABASE = os.environ['DATABASE_URL']
-        DATABASE = os.environ.get('DATABASE_URL', None)
+        SECRET_KEY='dev',
+        MYSQL_DATABASE_HOST='localhost',
+        MYSQL_DATABASE_DB='ez-log-db'
     )
-    # print(DATABASE)
+
     if test_config is None:
         # when not testing, load the instance config
         app.config.from_pyfile('config.py', silent=True)
@@ -33,9 +34,9 @@ def create_app(test_config=None):
     #     return 'Welcome to the index page! :D'
 
     # a simple hello page
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    # @app.route('/hello')
+    # def hello():
+    #     return 'Hello, World!'
 
     # register the db functions
     from . import db
@@ -60,6 +61,11 @@ def create_app(test_config=None):
     from . import mine
     app.register_blueprint(mine.bp)
     app.add_url_rule('/my_logs', endpoint='mine')
+
+    # register the spotify blueprint
+    from . import spotify
+    app.register_blueprint(spotify.bp)
+    app.add_url_rule('/spotify-auth', endpoint='spotify_auth')
 
     # Bootstrap(app)
 

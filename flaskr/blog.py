@@ -11,6 +11,7 @@ import os
 
 bp = Blueprint('blog', __name__)
 
+
 @bp.route('/home')
 def home():
     db = get_db()
@@ -26,11 +27,12 @@ def home():
     # ).fetchall()
     cursor.execute(
         "SELECT l.id, title, body, rating, created, author_id, username"
-        " FROM log l JOIN person p ON l.author_id=p.id"
+        " FROM log l JOIN user p ON l.author_id=p.id"
         " ORDER BY created DESC"
     )
     posts = cursor.fetchall()
     return render_template('blog/index.html', posts=posts)
+
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -63,13 +65,14 @@ def create():
 
     return render_template('blog/create.html')
 
+
 def get_post(id, check_author=True):
     cursor = get_db().cursor()
     cursor.execute(
         'SELECT l.id, title, body, rating, created, author_id, username'
-        ' FROM log l JOIN person p ON l.author_id = p.id'
+        ' FROM log l JOIN user p ON l.author_id = p.id'
         ' WHERE l.id = %s', (id,)
-        )
+    )
     post = cursor.fetchone()
     # post = get_db().execute(
     #     'SELECT p.id, title, body, rating, created, author_id, username'
@@ -86,6 +89,7 @@ def get_post(id, check_author=True):
         abort(403)
 
     return post
+
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
@@ -124,6 +128,7 @@ def update(id):
             return redirect(url_for('mine.mine'))
 
     return render_template('blog/update.html', post=post)
+
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required

@@ -1,7 +1,8 @@
-DROP TABLE IF EXISTS "person" CASCADE;
+DROP TABLE IF EXISTS "user";
 DROP TABLE IF EXISTS "log";
 
-CREATE TABLE "person" (
+CREATE TABLE "user"
+(
     -- id INTEGER PRIMARY KEY AUTOINCREMENT,
     -- id INTEGER PRIMARY KEY,
     id SERIAL PRIMARY KEY,
@@ -9,7 +10,8 @@ CREATE TABLE "person" (
     password TEXT NOT NULL
 );
 
-CREATE TABLE "log" (
+CREATE TABLE "log"
+(
     -- id INTEGER PRIMARY KEY AUTOINCREMENT,
     -- id INTEGER PRIMARY KEY,
     id SERIAL PRIMARY KEY,
@@ -18,7 +20,5 @@ CREATE TABLE "log" (
     title TEXT NOT NULL,
     body TEXT NOT NULL,
     rating INTEGER NOT NULL,
-    FOREIGN KEY (author_id) REFERENCES "person" (id)
+    FOREIGN KEY (author_id) REFERENCES "user" (id)
 );
-
--- CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT UNIQUE NOT NULL,password TEXT NOT NULL);
