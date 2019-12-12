@@ -50,16 +50,12 @@ def create():
         else:
             db = get_db()
             cursor = db.cursor()
-            # db.execute(
-            #     'INSERT INTO post (title, body, rating, author_id)'
-            #     ' VALUES (?, ?, ?, ?)', (title, body, rating, g.user['id'])
-            # )
             cursor.execute(
                 'INSERT INTO log (title, body, rating, author_id)'
                 ' VALUES (%s, %s, %s, %s)', (title, body, rating, g.user[0])
             )
             db.commit()
-            # return redirect(url_for('blog.index'))
+
             return redirect(url_for('mine.mine'))
 
     return render_template('blog/create.html')
@@ -73,11 +69,6 @@ def get_post(id, check_author=True):
         ' WHERE l.id = %s', (id,)
     )
     post = cursor.fetchone()
-    # post = get_db().execute(
-    #     'SELECT p.id, title, body, rating, created, author_id, username'
-    #     ' FROM post p JOIN user u ON p.author_id = u.id'
-    #     ' WHERE p.id = ?', (id,)
-    # ).fetchone()
 
     if post is None:
         abort(404, "Post id {0} doesn't exist".format(id))

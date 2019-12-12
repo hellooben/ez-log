@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
+from IPython import embed
 
 bp = Blueprint('mine', __name__)
 
@@ -17,31 +18,13 @@ def mine():
     cursor.execute(
         'SELECT l.id, title, body, rating, created, author_id, username'
         ' FROM log l INNER JOIN user ON user.id=l.author_id'
-        # ' WHERE author_id = ?', (user_id,)
         ' WHERE author_id = {uID}'
-        ' ORDER BY created DESC'.\
+        ' ORDER BY created DESC'.
         format(uID=user_id)
     )
-    # g.user = get_db().execute(
-    #     'SELECT * FROM user WHERE id = ?', (user_id,)
-    # ).fetchone()
-    #
-    # if user_id is None:
-    #     return render_template()
-    # posts = db.execute (
-    #     # 'SELECT p.id, title, body, created, author_id, username'
-    #     # ' FROM post p JOIN user u WHERE p.author_id == u.id'
-    #     # # ' FROM post p'
-    #     # # ' WHERE u.id=p.author_id'
-    #     # ' ORDER BY created DESC'
-    #     'SELECT post.id, title, body, rating, created, author_id, username'
-    #     ' FROM post INNER JOIN user ON user.id=post.author_id'
-    #     # ' WHERE author_id = ?', (user_id,)
-    #     ' WHERE author_id = {uID}'
-    #     ' ORDER BY created DESC'.\
-    #     format(uID=user_id)
-    # ).fetchall()
+
     posts = cursor.fetchall()
+    # embed()
     return render_template('blog/mine.html', posts=posts)
 
 

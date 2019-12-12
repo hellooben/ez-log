@@ -6,6 +6,7 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from flaskr.db import get_db
+from pdb import set_trace
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -27,8 +28,10 @@ def load_logged_in_user():
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
+        set_trace()
         username = request.form['username']
         password = request.form['password']
+
         db = get_db()
         cursor = db.cursor()
         error = None
@@ -38,8 +41,16 @@ def register():
         elif not password:
             error = 'Password is required'
         else:
+            # Looking for another user with the same username
+            # Here, SQL can be injected
+            query = "SELECT id FROM user WHERE username = '%s'" % username
+
+            # The query to be executed
+            print('QUERY: ', query)
+
+            # Executing the query. Injected SQL can be ran here
             cursor.execute(
-                "SELECT id FROM user WHERE username = %s", (username,)
+                query
             )
             if cursor.fetchone() is not None:
                 error = 'User {} is already registered'.format(username)

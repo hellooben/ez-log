@@ -1,4 +1,6 @@
 USE `ez-log-db`;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS log;
 
 CREATE TABLE user
 (
