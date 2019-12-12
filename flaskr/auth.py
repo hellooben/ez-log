@@ -12,9 +12,6 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.before_app_request
 def load_logged_in_user():
-    # Need to take this out after everything is working
-    # session.clear()
-    ##
     user_id = session.get('user_id')
     print('CURRENT USER ID: ', user_id)
 
@@ -22,14 +19,9 @@ def load_logged_in_user():
         g.user = None
     else:
         cursor = get_db().cursor()
-        # print(cursor)
+
         cursor.execute("SELECT * FROM user WHERE id = %s", (user_id,))
         g.user = cursor.fetchone()
-        # g.user = get_db().execute(
-        # g.user = cursor.execute(
-        #     # 'SELECT * FROM user WHERE id = ?', (user_id,)
-        #     "SELECT * FROM person WHERE id = %s", (user_id,)
-        # ).fetchone()
 
 
 @bp.route('/register', methods=('GET', 'POST'))
@@ -45,22 +37,17 @@ def register():
             error = 'Username is required'
         elif not password:
             error = 'Password is required'
-        # elif db.execute (
         else:
             cursor.execute(
-                # 'SELECT id FROM user WHERE username = ?', (username,)
                 "SELECT id FROM user WHERE username = %s", (username,)
             )
             if cursor.fetchone() is not None:
                 error = 'User {} is already registered'.format(username)
 
         if error is None:
-            # db.execute(
             cursor.execute(
-                # 'INSERT INTO user (username, password) VALUES (?, ?)',
                 "INSERT INTO user (username, password) VALUES (%s, %s)",
                 (username, generate_password_hash(password),)
-                # (username, password,)
             )
             db.commit()
             return redirect(url_for('auth.login'))
@@ -79,7 +66,6 @@ def login():
         cursor = db.cursor()
         error = None
         cursor.execute(
-            # 'SELECT * FROM user WHERE username = ?', (username,)
             "SELECT * FROM user WHERE username = %s", (username,)
         )
         user = cursor.fetchone()
@@ -102,8 +88,6 @@ def login():
 @bp.route('/logout')
 def logout():
     session.clear()
-    # return redirect(url_for('index'))
-    # return redirect(url_for('auth.login'))
     return redirect(url_for('verify'))
 
 
@@ -112,7 +96,6 @@ def login_required(view):
     def wrapped_view(**kwargs):
         if g.user is None:
             return redirect(url_for('auth.login'))
-            # return redirect(url_for('home'))
 
         return view(**kwargs)
 
